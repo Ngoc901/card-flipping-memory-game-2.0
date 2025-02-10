@@ -14,10 +14,12 @@ public class MatchCards {
 
     boolean gameReady = false;
 
+    // board
     int errorCount = 0;
     int boardWidth = config.columns * config.cardWidth;
     int boardHeight = config.rows * config.cardHeight;
 
+    // frame, error panel, restart button, card1 and card2
     JFrame frame = new JFrame("Memory Game");
     JLabel textLabel = new JLabel();
     JPanel textPanel = new JPanel();
@@ -30,9 +32,13 @@ public class MatchCards {
 
 
     MatchCards(){
+
             setupCard();
             shuffleCard();
+            System.out.println(cardSet);
 
+
+            // frame customizing
             //frame.setVisible(true);
             frame.setLayout(new BorderLayout());
             frame.setSize(boardWidth, boardHeight);
@@ -49,7 +55,7 @@ public class MatchCards {
             textPanel.add(textLabel);
             frame.add(textPanel, BorderLayout.NORTH);
 
-            //card game board
+            //add buttons to panel
             board = new ArrayList<JButton>();
             boardPanel.setLayout(new GridLayout(config.rows, config.columns));
             for (int i = 0; i < cardSet.size(); i++){
@@ -136,7 +142,7 @@ public class MatchCards {
         }
     }
 
-    private void handleCardClick(ActionEvent e) {
+    public void handleCardClick(ActionEvent e) {
         if (!gameReady) {
             return;
         }

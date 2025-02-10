@@ -9,16 +9,16 @@ public class Configs {
 
     Configs(){
         this.cardList = new String[]{
-                "darkness",
-                "lightning",
-                "double",
-                "fairy",
-                "metal",
-                "psychic",
-                "water",
-                "fire",
-                "fighting",
-                "grass"
+                "balloondog",
+                "bear",
+                "cake",
+                "catto",
+                "fish",
+                "flower",
+                "letter",
+                "milk",
+                "panda",
+                "strawberry"
         };
         this.rows = 4;
         this.columns = 3;
