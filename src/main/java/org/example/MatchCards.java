@@ -35,7 +35,7 @@ public class MatchCards {
 
             setupCard();
             shuffleCard();
-            System.out.println(cardSet);
+
 
 
             // frame customizing
@@ -69,6 +69,9 @@ public class MatchCards {
                 boardPanel.add(tile);
             }
 
+
+
+
             frame.add(boardPanel, BorderLayout.CENTER);
 
             //restart game button
@@ -87,10 +90,10 @@ public class MatchCards {
 
             // start game
             hideCardTimer = new Timer(1500, this::timerAction);
-            hideCardTimer.setRepeats(false);
-            hideCardTimer.start();
+                hideCardTimer.setRepeats(false);
+                hideCardTimer.start();
 
-        }
+            }
 
 
     void setupCard(){
@@ -123,11 +126,17 @@ public class MatchCards {
             cardSet.set(i, cardSet.get(j));
             cardSet.set(j, temp);
 
+
+
+
+
+
         }
         System.out.println(cardSet);
     }
 
     void hideCards(){
+
         if (gameReady && card1Selected != null && card2Selected != null){
             card1Selected.setIcon(backCardImageIcon);
             card1Selected = null; // removes the reference to the JButton object stored in card1Selected
@@ -139,6 +148,7 @@ public class MatchCards {
             }
             gameReady = true;
             restartButton.setEnabled(true);
+
         }
     }
 
