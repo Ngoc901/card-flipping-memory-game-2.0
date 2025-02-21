@@ -25,9 +25,12 @@ public class MatchCards {
     JPanel textPanel = new JPanel();
     JPanel boardPanel = new JPanel();
     JPanel restartGamePanel = new JPanel();
+    JPanel changeThemesPanel = new JPanel();
     JButton restartButton = new JButton("Restart");
+    JButton changeThemesButton = new VerticalButton("Change themes");
     JButton card1Selected;
     JButton card2Selected;
+
 
 
 
@@ -84,6 +87,17 @@ public class MatchCards {
             restartGamePanel.add(restartButton);
             frame.add(restartGamePanel, BorderLayout.SOUTH);
 
+            //change themes button
+
+            changeThemesButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            changeThemesButton.setText("Change Themes");
+            changeThemesButton.setPreferredSize(new Dimension(boardWidth, 30));
+            changeThemesButton.setFocusable(false);
+            changeThemesButton.setEnabled(false);
+            changeThemesButton.addActionListener(this::handleRestartClick);
+            changeThemesPanel.add(changeThemesButton);
+            frame.add(changeThemesPanel, BorderLayout.WEST);
+
 
             frame.pack(); //recalculate width and height after adding all components
             frame.setVisible(true);
@@ -101,7 +115,7 @@ public class MatchCards {
 
         cardSet = new ArrayList<Card>();
         for (String cardName : config.cardList) {
-            path = "/images/" + cardName + ".jpg";
+            path = "/images/light_theme/" + cardName + ".jpg";
             Image cardImg = new ImageIcon(getClass().getResource(path)).getImage();
             ImageIcon cardImageIcon = new ImageIcon(cardImg.getScaledInstance(config.cardWidth, config.cardHeight, java.awt.Image.SCALE_SMOOTH));
 
@@ -110,7 +124,7 @@ public class MatchCards {
         }
         cardSet.addAll(cardSet); // doubles the cards
 
-        Image cardBackImg = new ImageIcon(getClass().getResource("/images/back.jpg")).getImage();
+        Image cardBackImg = new ImageIcon(getClass().getResource("/images/light_theme/back.jpg")).getImage();
         backCardImageIcon = new ImageIcon(cardBackImg.getScaledInstance(config.cardWidth, config.cardHeight, java.awt.Image.SCALE_SMOOTH));
 
     }
