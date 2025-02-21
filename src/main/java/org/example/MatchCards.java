@@ -27,7 +27,8 @@ public class MatchCards {
     JPanel restartGamePanel = new JPanel();
     JPanel changeThemesPanel = new JPanel();
     JButton restartButton = new JButton("Restart");
-    JButton changeThemesButton = new VerticalButton("Change themes");
+    JButton changeLightThemesButton = new JButton("Change Light Themes");
+    JButton changeDarkThemesButton = new JButton("Change Dark Themes");
     JButton card1Selected;
     JButton card2Selected;
 
@@ -89,13 +90,25 @@ public class MatchCards {
 
             //change themes button
 
-            changeThemesButton.setFont(new Font("Arial", Font.PLAIN, 16));
-            changeThemesButton.setText("Change Themes");
-            changeThemesButton.setPreferredSize(new Dimension(boardWidth, 30));
-            changeThemesButton.setFocusable(false);
-            changeThemesButton.setEnabled(false);
-            changeThemesButton.addActionListener(this::handleRestartClick);
-            changeThemesPanel.add(changeThemesButton);
+            //light theme
+            changeLightThemesButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            changeLightThemesButton.setText("☆");
+            changeLightThemesButton.setPreferredSize(new Dimension(30, 30));
+            changeLightThemesButton.setFocusable(false);
+            changeLightThemesButton.setEnabled(false);
+            changeLightThemesButton.addActionListener(this::handleRestartClick);
+
+            //dark theme
+            changeDarkThemesButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            changeDarkThemesButton.setText("★");
+            changeDarkThemesButton.setPreferredSize(new Dimension(30, 30));
+            changeDarkThemesButton.setFocusable(false);
+            changeDarkThemesButton.setEnabled(false);
+            changeDarkThemesButton.addActionListener(this::handleRestartClick);
+
+            changeThemesPanel.setLayout(new FlowLayout());
+            changeThemesPanel.add(changeLightThemesButton);
+            changeThemesPanel.add(changeLightThemesButton);
             frame.add(changeThemesPanel, BorderLayout.WEST);
 
 
