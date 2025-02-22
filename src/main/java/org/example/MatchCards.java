@@ -34,13 +34,10 @@ public class MatchCards {
 
 
 
-
     MatchCards(){
 
             setupCard();
             shuffleCard();
-
-
 
             // frame customizing
             //frame.setVisible(true);
@@ -106,9 +103,9 @@ public class MatchCards {
             changeDarkThemesButton.setEnabled(false);
             changeDarkThemesButton.addActionListener(this::handleRestartClick);
 
-            changeThemesPanel.setLayout(new FlowLayout());
+            changeThemesPanel.setLayout(new BoxLayout(changeThemesPanel, BoxLayout.Y_AXIS));
             changeThemesPanel.add(changeLightThemesButton);
-            changeThemesPanel.add(changeLightThemesButton);
+            changeThemesPanel.add(changeDarkThemesButton);
             frame.add(changeThemesPanel, BorderLayout.WEST);
 
 
@@ -152,11 +149,6 @@ public class MatchCards {
             Card temp = cardSet.get(i);
             cardSet.set(i, cardSet.get(j));
             cardSet.set(j, temp);
-
-
-
-
-
 
         }
         System.out.println(cardSet);
