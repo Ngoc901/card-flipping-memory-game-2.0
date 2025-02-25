@@ -1,4 +1,6 @@
 package org.example;
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -27,20 +29,23 @@ public class MatchCards {
     JPanel restartGamePanel = new JPanel();
     JPanel changeThemesPanel = new JPanel();
     JButton restartButton = new JButton("Restart");
-    JButton changeLightThemesButton = new JButton("Change Light Themes");
-    JButton changeDarkThemesButton = new JButton("Change Dark Themes");
+    JButton changeLightThemeButton = new JButton("Change Light Themes");
+    JButton changeDarkThemeButton = new JButton("Change Dark Themes");
     JButton card1Selected;
     JButton card2Selected;
+
+    Clip backgroundClip;
 
 
 
     MatchCards(){
 
+
+        backgroundMusicSound();
             setupCard();
             shuffleCard();
 
             // frame customizing
-            //frame.setVisible(true);
             frame.setLayout(new BorderLayout());
             frame.setSize(boardWidth, boardHeight);
             frame.setLocationRelativeTo(null); //center of the screen
@@ -50,7 +55,7 @@ public class MatchCards {
             // error text
             textLabel.setFont(new Font("Arial", Font.PLAIN, 20));
             textLabel.setHorizontalAlignment(JLabel.CENTER);
-            textLabel.setText("Errors: " + Integer.toString(errorCount));
+            textLabel.setText("Misses: " + Integer.toString(errorCount));
 
             textPanel.setPreferredSize(new Dimension(boardWidth, 30));
             textPanel.add(textLabel);
@@ -71,8 +76,6 @@ public class MatchCards {
             }
 
 
-
-
             frame.add(boardPanel, BorderLayout.CENTER);
 
             //restart game button
@@ -88,24 +91,24 @@ public class MatchCards {
             //change themes button
 
             //light theme
-            changeLightThemesButton.setFont(new Font("Arial", Font.PLAIN, 16));
-            changeLightThemesButton.setText("☆");
-            changeLightThemesButton.setPreferredSize(new Dimension(30, 30));
-            changeLightThemesButton.setFocusable(false);
-            changeLightThemesButton.setEnabled(false);
-            changeLightThemesButton.addActionListener(this::handleRestartClick);
+            changeLightThemeButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            changeLightThemeButton.setText("☆");
+            changeLightThemeButton.setPreferredSize(new Dimension(30, 30));
+            changeLightThemeButton.setFocusable(false);
+            changeLightThemeButton.setEnabled(false);
+            changeLightThemeButton.addActionListener(this::handleLightThemeChangeClick);
 
             //dark theme
-            changeDarkThemesButton.setFont(new Font("Arial", Font.PLAIN, 16));
-            changeDarkThemesButton.setText("★");
-            changeDarkThemesButton.setPreferredSize(new Dimension(30, 30));
-            changeDarkThemesButton.setFocusable(false);
-            changeDarkThemesButton.setEnabled(false);
-            changeDarkThemesButton.addActionListener(this::handleRestartClick);
+            changeDarkThemeButton.setFont(new Font("Arial", Font.PLAIN, 16));
+            changeDarkThemeButton.setText("★");
+            changeDarkThemeButton.setPreferredSize(new Dimension(30, 30));
+            changeDarkThemeButton.setFocusable(false);
+            changeDarkThemeButton.setEnabled(false);
+            changeDarkThemeButton.addActionListener(this::handleDarkThemeChangeClick);
 
             changeThemesPanel.setLayout(new BoxLayout(changeThemesPanel, BoxLayout.Y_AXIS));
-            changeThemesPanel.add(changeLightThemesButton);
-            changeThemesPanel.add(changeDarkThemesButton);
+            changeThemesPanel.add(changeLightThemeButton);
+            changeThemesPanel.add(changeDarkThemeButton);
             frame.add(changeThemesPanel, BorderLayout.WEST);
 
 
@@ -154,6 +157,25 @@ public class MatchCards {
         System.out.println(cardSet);
     }
 
+    void setupCardDarkTheme(){
+        String path;
+
+        cardSet = new ArrayList<Card>();
+        for (String cardName : config.darkThemeCardList) {
+            path = "/images/dark_theme/" + cardName + ".jpg";
+            Image cardImg = new ImageIcon(getClass().getResource(path)).getImage();
+            ImageIcon cardImageIcon = new ImageIcon(cardImg.getScaledInstance(config.cardWidth, config.cardHeight, java.awt.Image.SCALE_SMOOTH));
+
+            Card card = new Card(cardName, cardImageIcon);
+            cardSet.add(card);
+        }
+        cardSet.addAll(cardSet); // doubles the cards
+
+        Image cardBackImg = new ImageIcon(getClass().getResource("/images/dark_theme/back.jpg")).getImage();
+        backCardImageIcon = new ImageIcon(cardBackImg.getScaledInstance(config.cardWidth, config.cardHeight, java.awt.Image.SCALE_SMOOTH));
+
+    }
+
     void hideCards(){
 
         if (gameReady && card1Selected != null && card2Selected != null){
@@ -167,8 +189,25 @@ public class MatchCards {
             }
             gameReady = true;
             restartButton.setEnabled(true);
+            changeDarkThemeButton.setEnabled(true);
+            changeLightThemeButton.setEnabled(true);
+
 
         }
+    }
+
+    void backgroundMusicSound(){
+
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(getClass().getResource("/audios/elevator_music_crazy.wav"));
+            backgroundClip = AudioSystem.getClip();
+            backgroundClip.open(audioStream);
+            backgroundClip.loop(Clip.LOOP_CONTINUOUSLY);
+            backgroundClip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void handleCardClick(ActionEvent e) {
@@ -189,7 +228,7 @@ public class MatchCards {
                 // Check if cards match
                 if (card1Selected.getIcon() != card2Selected.getIcon()) {
                     errorCount++;
-                    textLabel.setText("Errors: " + Integer.toString(errorCount));
+                    textLabel.setText("Misses: " + Integer.toString(errorCount));
                     hideCardTimer.start();
                 } else {
                     card1Selected = null;
@@ -217,7 +256,54 @@ public class MatchCards {
         }
 
         errorCount = 0;
-        textLabel.setText("Errors: " + Integer.toString(errorCount));
+        textLabel.setText("Misses: " + Integer.toString(errorCount));
+        hideCardTimer.start();
+    }
+
+    public void handleDarkThemeChangeClick(ActionEvent e){
+        if(!gameReady){
+            return;
+        }
+
+        // resetting everything
+        gameReady = false;
+        changeDarkThemeButton.setEnabled(false);
+        card1Selected = null;
+        card2Selected = null;
+        setupCardDarkTheme();
+        shuffleCard();
+
+        //reassigning buttons with new cards
+
+        for(int i = 0; i < board.size(); i++){
+            board.get(i).setIcon(cardSet.get(i).cardImageIcon);
+        }
+
+        errorCount = 0;
+        textLabel.setText("Misses: " + Integer.toString(errorCount));
+        hideCardTimer.start();
+    }
+
+    public void handleLightThemeChangeClick(ActionEvent e){
+        if(!gameReady){
+            return;
+        }
+        // resetting everything
+        gameReady = false;
+        changeDarkThemeButton.setEnabled(false);
+        card1Selected = null;
+        card2Selected = null;
+        setupCard();
+        shuffleCard();
+
+        //reassigning buttons with new cards
+
+        for(int i = 0; i < board.size(); i++){
+            board.get(i).setIcon(cardSet.get(i).cardImageIcon);
+        }
+
+        errorCount = 0;
+        textLabel.setText("Misses: " + Integer.toString(errorCount));
         hideCardTimer.start();
     }
 
