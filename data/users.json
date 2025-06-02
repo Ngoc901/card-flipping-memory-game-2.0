@@ -1,0 +1,76 @@
+[ {
+  "name" : "Alice",
+  "score" : 1500
+}, {
+  "name" : "Bob",
+  "score" : 900
+}, {
+  "name" : "Charlie",
+  "score" : 1200
+}, {
+  "name" : "Diana",
+  "score" : 1100
+}, {
+  "name" : "Ethan",
+  "score" : 750
+}, {
+  "name" : "Fiona",
+  "score" : 1340
+}, {
+  "name" : "George",
+  "score" : 980
+}, {
+  "name" : "Hannah",
+  "score" : 1450
+}, {
+  "name" : "Ian",
+  "score" : 670
+}, {
+  "name" : "Julia",
+  "score" : 1020
+}, {
+  "name" : "Kevin",
+  "score" : 890
+}, {
+  "name" : "Lara",
+  "score" : 1350
+}, {
+  "name" : "Mike",
+  "score" : 1250
+}, {
+  "name" : "Nina",
+  "score" : 820
+}, {
+  "name" : "Oscar",
+  "score" : 1070
+}, {
+  "name" : "Paula",
+  "score" : 930
+}, {
+  "name" : "Quinn",
+  "score" : 970
+}, {
+  "name" : "Rachel",
+  "score" : 1400
+}, {
+  "name" : "Steve",
+  "score" : 1190
+}, {
+  "name" : "Tina",
+  "score" : 1040
+}, {
+  "name" : "Umar",
+  "score" : 880
+}, {
+  "name" : "Vera",
+  "score" : 920
+}, {
+  "name" : "Niki",
+  "score" : 2052
+}, {
+  "name" : "Mia",
+  "score" : 2316
+}, {
+  "name" : "Lily",
+  "score" : 392
+} ]
