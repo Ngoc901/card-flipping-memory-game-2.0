@@ -2,7 +2,7 @@ package org.example;
 
 import javax.swing.*;
 
-public class Card {
+public abstract class Card {
     String cardName;
     ImageIcon cardImageIcon;
 
@@ -15,4 +15,7 @@ public class Card {
     public String toString() {
         return cardName;
     }
+
+    public abstract int getMismatchPenalty();
+    public abstract int getMatchScore();
 }
